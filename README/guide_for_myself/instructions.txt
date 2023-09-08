@@ -1,0 +1,60 @@
+Main Menu Options:
+
+    Play: Start a new game adventure.
+    Instructions: Learn how to play.
+    Settings: Customize your game experience.
+    Achievements: View your achievements.
+    High Scores: Check the top player scores.
+    Users: Manage player profiles (if applicable).
+
+Instructions:
+
+1. Play:
+
+    When you choose "Play," the game will start.
+    You'll control the elemental creature's movement by tapping or clicking.
+    Collect orbs of your element while avoiding obstacles.
+    Matching the elemental orb with your creature's element doesn't penalize you; otherwise, you'll lose health or end the game.
+    Achieving specific goals earns you achievements.
+
+2. In-Game Play:
+
+    During gameplay, you'll see your score and collected orbs.
+    New obstacles will appear as you progress.
+    Collect elemental orbs and activate temporary power-ups.
+    The game ends when you run out of health or manually quit.
+
+3. End Game:
+
+    After the game ends, you'll see your final score.
+    Choose "Restart" to begin a new game or "Main Menu" to return to the main menu.
+    If your score ranks among the top, enter your name (up to 16 characters) to save it on the leaderboard.
+
+4. Instructions:
+
+    In the "Instructions" section, you can learn how to play the game.
+
+5. Settings:
+
+    Customize game settings such as sound volume and graphics quality.
+    Return to the main menu after making changes.
+
+6. Achievements:
+
+    View all achievements and check which ones you've earned.
+    Achievements may grant bonuses during gameplay.
+    Return to the main menu after viewing achievements.
+
+7. High Scores:
+
+    See the top ten player scores.
+    Compete for the highest score and bragging rights.
+    Return to the main menu after checking the high scores.
+
+8. Users:
+
+    Manage different player profiles (if available).
+    Useful for keeping track of personal high scores and achievements.
+    Return to the main menu after managing user profiles.
+
+Enjoy your journey in the magical world of Elemental Flight!

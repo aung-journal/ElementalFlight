@@ -1,0 +1,59 @@
+Here is a simplified flowchart for your game:
+
+1. Start
+2. Display main menu options (Play, Instructions, Settings, Achievements, HighScore, Users)
+3. Player selects "Play"
+4. Initialize game variables and set starting position of the elemental creature
+5. If player hasn't chosen any user
+5. Enter game loop
+   - Update player input (tap or click)
+   - Move the elemental creature based on player input
+   - Check for collision with obstacles
+     - If there is a collision:
+       - Check if the obstacle matches the current element of the creature
+         - If yes: continue gameplay without penalties
+         - If no: apply penalty (reduce health or end game)
+     - If there is no collision:
+       - Continue gameplay without penalties
+       
+     - If the player achieved an achievement:
+        - Display the achievement in upper middle with particle effect
+        - Tick the achievement in achievement for the user specifically
+        - Continue the gameplay while displaying
+
+6. Display score and collected orbs on-screen during gameplay
+
+7. Generate random obstacles and place them in the level as the player progresses
+
+8. Generate random elemental orbs throughout the level
+
+9. Check if power-up orb has been encountered by player
+   - If yes: activate power-up effect temporarily
+
+10. End game loop when player loses all health or manually quits the game.
+
+11.Display end screen with final score and options to restart or return to main menu.
+
+12. If the score is greater than one of the high scores, switch to "Enter High Score State" and return to "Main Menu" after entering the name in at max 16 letters.
+
+12.Player selects "Restart" to play again from step 4.
+
+13.Player selects "Main Menu" to return to step 2.
+
+14.Player selects "Instructions" from main menu.
+    a) Display instructions on how to play.
+    b) Return to main menu when finished reading.
+
+15.Player selects "Settings" from main menu.
+    a) Allow players to adjust settings such as sound volume, graphics quality, etc.
+    b) Return to main menu after making changes.
+    
+16. Player selects "Achievements" from main menu.
+    a) Display all the Achievements and ticked where player have achieved
+    b) Return to main menu after making changes.
+    
+17. Player selects "High Scores" from main menu.
+    a) Display all the recent ten best achievements
+    b) Return to main menu after making changes.
+    
+   
