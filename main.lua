@@ -2,7 +2,7 @@ require 'src/dependencies'
 
 -- I will make random natural dirt generation later
 --I will direct to user State after entering playState and I have this problem that if user accidentally clicks p, they can't recover their last position
---firstly, work on settingState 
+--firstly, work on AchievementState() LoadAchievements() function specifically
 --in switching to pause state, say do you really want to switch or not and if you want to pause, just click u, or you may not be
 --able to back up your changes
 function love.load()
@@ -274,93 +274,80 @@ function LoadHighScores()
 end
 
 function LoadAchievements()
+    -- Set the identity for the love.filesystem (used for saving and loading data)
     love.filesystem.setIdentity('elemental_flight')
 
     -- Define the file path for achievements data
     local achievementsFile = 'elemental_flight_achievements.lst'
 
-    -- Create an empty table to store achievements with their values (true/false or numeric)
-    -- Create a table to store achievements with values and descriptions
     local achievements = {
-        ["Elementalist"] = {
-            value = false,
-            description = "Collect all elemental orbs in a single run."
+        {
+            description = "Elementalist: Collect all elemental orbs in a single run.",
+            value = 0
         },
-        ["FlawlessFlight"] = {
-            value = 0,
-            description = "Clear a certain number of obstacles without taking any damage."
+        {
+            description = "FlawlessFlight: Clear a certain number of obstacles without taking any damage.",
+            value = 0
         },
-        ["SpeedDemon"] = {
-            value = 0,
-            description = "Reach a certain speed milestone in the game."
+        {
+            description = "SpeedDemon: Reach a certain speed milestone in the game.",
+            value = 0
         },
-        ["FireWalker"] = {
-            value = 0,
-            description = "Clear a certain number of fire obstacles without changing your elemental type."
+        {
+            description = "FireWalker: Clear a certain number of fire obstacles without changing your elemental type.",
+            value = 0
         },
-        ["AquaticAdventurer"] = {
-            value = 0,
-            description = "Clear a certain number of water obstacles without changing your elemental type."
+        {
+            description = "AquaticAdventurer: Clear a certain number of water obstacles without changing your elemental type.",
+            value = 0
         },
-        ["ElectrifyingEscape"] = {
-            value = 0,
-            description = "Clear a certain number of lightning obstacles without changing your elemental type."
+        {
+            description = "ElectrifyingEscape: Clear a certain number of lightning obstacles without changing your elemental type.",
+            value = 0
         },
-        ["MasterShapeShifter"] = {
-            value = 0,
-            description = "Change your elemental type a certain number of times in a single run."
+        {
+            description = "MasterShapeShifter: Change your elemental type a certain number of times in a single run.",
+            value = 0
         },
-        ["OrbHoarder"] = {
-            value = 0,
-            description = "Collect a certain number of orbs in total."
+        {
+            description = "OrbHoarder: Collect a certain number of orbs in total.",
+            value = 0
         },
-        ["BarrierBreaker"] = {
-            value = 0,
-            description = "Clear a certain number of wall obstacles without taking any damage."
+        {
+            description = "BarrierBreaker: Clear a certain number of wall obstacles without taking any damage.",
+            value = 0
         },
-        ["PillarJumper"] = {
-            value = 0,
-            description = "Clear a certain number of pillar obstacles without taking any damage."
+        {
+            description = "PillarJumper: Clear a certain number of pillar obstacles without taking any damage.",
+            value = 0
         }
     }
 
-    -- If the file doesn't exist, initialize it with default achievements (all set to their initial values)
-    if not love.filesystem.getInfo(achievementsFile) then
-        -- Serialize the default achievements table to a string
-        local defaultAchievementsString = ''
-        for achievement, data in pairs(achievements) do
-            defaultAchievementsString = defaultAchievementsString .. achievement .. '\n'
-            defaultAchievementsString = defaultAchievementsString .. tostring(data.value) .. '\n'
-        end        
+    -- if not love.filesystem.getInfo(achievementsFile) then
+    --     local achievementsString = ''
+    --     for i = 10, 1, -1 do
+    --         achievementsString = achievementsString .. achievements.description .. '\n'
+    --         achievementsString = achievementsString .. achievements.value .. '\n'
+    --     end
 
-        -- Write the default achievements data to the file
-        love.filesystem.write(achievementsFile, defaultAchievementsString)
-    end
+    --     love.filesystem.write(achievementsFile, achievementsString)
+    -- end
 
-    -- Read and parse the achievements data from the file
-    local name = true  -- Flag for whether we're reading a name or not
-    local currentAchievement = nil
+    -- local name = true
+    -- local currentName = nil
+    -- local counter = 1
 
-    for line in love.filesystem.lines(achievementsFile) do
-        if name then
-            currentAchievement = line
-        else
-            -- Check if the achievement has a numeric value
-            if achievements[currentAchievement] ~= true or achievements[currentAchievement] ~= false then
-                achievements[currentAchievement] = tonumber(line) or achievements[currentAchievement]
-            else
-                -- If not numeric, assume it's a boolean value
-                achievements[currentAchievement] = line == "true"
-            end
-        end
+    -- local achievementsTable = {}
 
-        -- Flip the name flag
-        name = not name
-    end
+    -- for line in love.filesystem.lines(achievementsFile) do
+    -- end
 
     return achievements
 end
 
+function LoadUsers()
+    
+end
 
 --[[
     Renders hearts based on how much health the player has. First renders

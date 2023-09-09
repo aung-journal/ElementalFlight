@@ -37,7 +37,7 @@ function InstructionState:enter(params)
         },
         {
             heading = "8. Users:",
-            text = "Manage different player profiles (if available).\nUseful for keeping track of personal high scores and achievements.\nReturn to the main menu after managing user profiles."
+            text = "Manage different player profiles.\nUseful for keeping track of personal high scores and achievements.\nReturn to the main menu after managing user profiles."
         },
         {
             heading = "Enjoy your journey in the magical world of Elemental Flight!",

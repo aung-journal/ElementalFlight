@@ -1,22 +1,10 @@
 AchievementState = Class{__includes = BaseState}
 
 local startIndex = 1  -- Index of the first visible achievement
-local achievementsPerPage = 5  -- Number of achievements to display per page
+local achievementsPerPage = 3  -- Number of achievements to display per page
 
 function AchievementState:enter(params)
     self.achievements = LoadAchievements()
-    self.names = {
-        "Elementalist",
-        "FlawlessFlight",
-        "SpeedDemon",
-        "FireWalker",
-        "AquaticAdventurer",
-        "ElectrifyingEscape",
-        "MasterShapeShifter",
-        "OrbHoarder",
-        "BarrierBreaker",
-        "PillarJumper"
-    }
 end
 
 function AchievementState:update(dt)
@@ -33,13 +21,12 @@ function AchievementState:render()
     love.graphics.setFont(gFonts['large'])
     love.graphics.printf('Achievements', 0, 0, VIRTUAL_WIDTH, "center")
 
-    love.graphics.setFont(gFonts['medium'])
+    love.graphics.setFont(gFonts['small'])
 
     -- Iterate over visible achievements based on the startIndex and achievementsPerPage
     for i = startIndex, startIndex + achievementsPerPage - 1 do
-        local name = self.names[i]
-        local nameWidth = love.graphics.getFont():getWidth(name)
-        local achievement = self.achievements[name]  -- Access the achievement data from the global table
+        local achievement = self.achievements[i]  -- Access the achievement data from the global table
+        local description = achievement.description
         
         if achievement then
             
@@ -49,15 +36,15 @@ function AchievementState:render()
 
             -- Achievement number (1-10)
             love.graphics.printf(tostring(i) .. '.', 10, 
-            50 + (i - startIndex) * 50, 50, 'left')
+            50 + (i - startIndex) * 80, 50, 'left')
 
-            -- Achievement name
-            love.graphics.printf(tostring(name), 48, 
-                50 + (i - startIndex) * 50, nameWidth, 'right')
+            -- Achievement description
+            love.graphics.printf(tostring(description), 48, 
+                50 + (i - startIndex) * 80, 312, 'center')
             
             -- The completion status of the achievement
-            love.graphics.printf(tostring(0), VIRTUAL_WIDTH / 3 + 170,
-                50 + (i - startIndex) * 50, 100, 'right')
+            love.graphics.printf(tostring(achievement.value), VIRTUAL_WIDTH / 3 + 170,
+                50 + (i - startIndex) * 80, 100, 'right')
         end
     end
 end
