@@ -5,6 +5,11 @@ require 'src/dependencies'
 --firstly, work on AchievementState() LoadAchievements() function specifically
 --in switching to pause state, say do you really want to switch or not and if you want to pause, just click u, or you may not be
 --able to back up your changes
+
+--for sep 11 monday, just find why pipes are not rendering as they are supposed to be(although every logic and rendering function is working fine)
+
+--about orbs, I want to make some orbs to spawn rarer than other but every orbs spawn will definitely hit the player
+--then later add other obstacles such as rotating pipe and spikes and colorized dirts(make that only in natural biome(firebird 's background))
 function love.load()
     love.graphics.setDefaultFilter('nearest', 'nearest')
 
@@ -26,6 +31,12 @@ function love.load()
         ['backgrounds'] = love.graphics.newImage('graphics/backgrounds.png'),
         ['main'] = love.graphics.newImage('graphics/sprites.png'),
         ['arrows'] = love.graphics.newImage('graphics/Ui/arrows.png'),
+        ['hearts'] = love.graphics.newImage('graphics/hearts.png'),
+        ['particle'] = love.graphics.newImage('graphics/particle.png'),
+
+        --orbs effects
+        ['gold'] = love.graphics.newImage('graphics/gold.png'),
+        ['shield'] = love.graphics.newImage('graphics/shield.png'),
 
         --this is for obstacles and additional features
         ['pipes'] = love.graphics.newImage('graphics/obstacles/pipes.png')
@@ -36,6 +47,7 @@ function love.load()
         ['birds'] = GenerateQuadsBird(gTextures['main']),
         ['backgrounds'] = GenerateQuadsBackground(gTextures['backgrounds']),
         ['arrows'] = GenerateQuadsArrows(gTextures['arrows']),
+        ['hearts'] = GenerateQuadsHearts(gTextures['hearts']),
 
         --this is for powerups and orbs(elemental)
         ['elemental_orbs'] = GenerateQuadsElementalOrbs(gTextures['main']),
@@ -54,6 +66,8 @@ function love.load()
         ['selection'] = love.audio.newSource('sounds/selection.wav', 'static'),
         ['confirm'] = love.audio.newSource('sounds/confirm.wav', 'static'),
         ['jump'] = love.audio.newSource('sounds/jump.wav', 'static'),
+        ['hurt'] = love.audio.newSource('sounds/hurt.wav', 'static'),
+        ['pop'] = love.audio.newSource('sounds/pop.mp3', 'static'),
         ['high-score'] = love.audio.newSource('sounds/high_score.wav', 'static'),
 
         ['music'] = love.audio.newSource('sounds/music.mp3', 'static')
@@ -91,6 +105,10 @@ end
 function love.keypressed(key)
     if key == 'p' then
         if gStateMachine:getCurrentStateName() ~= 'start' then
+            if gStateMachine:getCurrentStateName() == 'play' then
+                --reset the background Scrolling speed if paused state have been changed
+                BACKGROUND_SCROLLING_SPEED = 30
+            end
             gStateMachine:change('pause',{
                 state = gStateMachine:getCurrentStateName()
             })
@@ -302,7 +320,7 @@ function LoadAchievements()
             value = 0
         },
         {
-            description = "ElectrifyingEscape: Clear a certain number of lightning obstacles without changing your elemental type.",
+            description = "FlutteringEscape: Clear a certain number of air obstacles without changing your elemental type.",
             value = 0
         },
         {
@@ -345,9 +363,9 @@ function LoadAchievements()
     return achievements
 end
 
-function LoadUsers()
+-- function LoadUsers()
     
-end
+-- end
 
 --[[
     Renders hearts based on how much health the player has. First renders
@@ -359,14 +377,14 @@ function RenderHealth(health)
     
     -- render health left
     for i = 1, health do
-        love.graphics.draw(gTextures['main'], gFrames['hearts'][1], healthX, 4)
-        healthX = healthX + 11
+        love.graphics.draw(gTextures['hearts'], gFrames['hearts'][1], healthX, 4)
+        healthX = healthX + 24
     end
 
     -- render missing health
     for i = 1, 3 - health do
-        love.graphics.draw(gTextures['main'], gFrames['hearts'][2], healthX, 4)
-        healthX = healthX + 11
+        love.graphics.draw(gTextures['hearts'], gFrames['hearts'][2], healthX, 4)
+        healthX = healthX + 24
     end
 end
 

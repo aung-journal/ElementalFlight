@@ -25,7 +25,9 @@ function StartState:update(dt)
 
         if highlighted == 1 then
             gStateMachine:change('play', {
-                highScores = self.highScores
+                highScores = self.highScores,
+                hearts = 3,
+                score = 0
             })
         elseif highlighted == 2 then
             gStateMachine:change('instructions')

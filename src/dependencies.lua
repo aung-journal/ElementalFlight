@@ -4,8 +4,8 @@ push = require 'lib/push'
 --This is the library to create classes
 Class = require 'lib/class'
 
---This is the library for JSON encoding in lst file
-json = require 'cjson'
+-- --This is the library for JSON encoding in lst file
+-- json = require 'cjson'
 
 --This is where the main global constants are stored
 require 'src/constants'

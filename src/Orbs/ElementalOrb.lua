@@ -3,7 +3,7 @@ ElementalOrb = Class{}
 local ELEMENTAL_SPEED = 3
 
 function ElementalOrb:init(x, y)
-    self.skin = math.random(4)
+    self.skin = math.random(Orbs)
 
     self.x = x - 16
     self.y = y - 16

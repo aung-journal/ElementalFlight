@@ -12,6 +12,16 @@ function Bird:init(skin)
 
     self.dx = 0
     self.dy = 0
+
+    --particle system that works with fusion orbs, rainbow orbs, etc
+    self.psystem = love.graphics.newParticleSystem(gTextures['particle'], 64)
+    --array which would be manipulated to change the time the effect lasts
+    --default of 5 seconds for default cooldown time of the elemental_orbs
+    self.psystemTime = {5, 5}
+
+    --set lifeTime of these particles
+    self.psystem:setParticleLifetime(self.psystemTime[1], self.psystemTime[2])
+
 end
 
 function Bird:collides(obstacle)
@@ -24,6 +34,18 @@ function Bird:collides(obstacle)
             return true
         end
     end
+
+    --this is procedure that lets you know whether the obstacle is ElementalOrb class or not
+    --and perform particle system logic based on that orb
+
+    -- Set obstacle's metatable to ElementalOrb metatable
+    setmetatable(obstacle, { __index = ElementalOrb })
+
+    -- Check if obstacle's metatable is the same as ElementalOrb metatable
+    -- if getmetatable(obstacle) == ElementalOrb then
+    --     --check if the orb is a fusion orb or not
+
+    -- end
 
     return false
 end 

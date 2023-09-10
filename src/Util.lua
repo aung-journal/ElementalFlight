@@ -45,10 +45,19 @@ function GenerateQuadsArrows(atlas)
     return GenerateQuads(atlas, 72, 72)
 end
 
+-- --these are quads function for UI
+-- function GenerateQuadsCoin(atlas)
+--     return GenerateQuads(atlas, )
+-- end
+
+function GenerateQuadsHearts(atlas)
+    return GenerateQuads(atlas, 24, 24)
+end
+
 -- these are quads function for Orbs
 
 function GenerateQuadsElementalOrbs(atlas)
-    return table.slice(GenerateQuads(atlas, 16, 16), 46, 49)
+    return table.slice(GenerateQuads(atlas, 16, 16), 46, 45 + Orbs)
 end
 
 

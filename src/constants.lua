@@ -16,6 +16,9 @@ BackgroundScroll = 0
 --skin for the elemental change
 Skin = 1
 
+--amount of Orbs in game
+Orbs = 9
+
 --Scrolling
 Scrolling = true
 
