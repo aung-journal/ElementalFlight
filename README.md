@@ -48,10 +48,10 @@ Players control the elemental creature's flight by tapping or clicking on the sc
 - Thematic background music that complements the elemental atmosphere.
 
 ## Platforms
-- Initially designed for mobile platforms (iOS and Android) due to the tap-based controls.
-- Potential for web and desktop versions for a broader audience.
+- Initially designed for desktop version due to arrow key based controls
+- Potential for IOS/android mobile versions for a broader audience.
 
-## Monetization
+## Monetization(Might add later)
 - In-app ads: Display ads to generate revenue.
 - In-app purchases: Offer cosmetic skins for elemental creatures, additional lives, or power-up packs.
 
