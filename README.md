@@ -1,4 +1,4 @@
-# ElementalFlight Game Design Document
+# ElementalFlight Game Documentation
 
 ## Overview
 ElementalFlight is an elemental-themed game inspired by the classic "Flappy Bird" gameplay. Players control an elemental creature's flight through a scrolling environment filled with obstacles of various elemental types. The core mechanic involves matching the player's elemental type with the obstacle's type for safe passage. Collecting elemental orbs and power-ups adds depth and strategy to the gameplay.
