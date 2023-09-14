@@ -7,6 +7,9 @@ require 'src/dependencies'
 --able to back up your changes
 
 --for sep 11 monday, just find why pipes are not rendering as they are supposed to be(although every logic and rendering function is working fine)
+--make changes to my website by adding elemental_flight image screenshot and put it to both my website and github
+
+--maybe I might embed the game into my website later
 
 --about orbs, I want to make some orbs to spawn rarer than other but every orbs spawn will definitely hit the player
 --then later add other obstacles such as rotating pipe and spikes and colorized dirts(make that only in natural biome(firebird 's background))
@@ -39,7 +42,8 @@ function love.load()
         ['shield'] = love.graphics.newImage('graphics/shield.png'),
 
         --this is for obstacles and additional features
-        ['pipes'] = love.graphics.newImage('graphics/obstacles/pipes.png')
+        ['pipes'] = love.graphics.newImage('graphics/obstacles/pillars.png'),
+        ['tunnels'] = love.graphics.newImage('graphics/obstacles/tunnels.png')
     }
 
     gFrames = {
@@ -53,7 +57,8 @@ function love.load()
         ['elemental_orbs'] = GenerateQuadsElementalOrbs(gTextures['main']),
 
         --this is for obstacles
-        ['pipes'] = GenerateQuadsPipes(gTextures['pipes'])
+        ['pipes'] = GenerateQuadsPipes(gTextures['pipes']),
+        ['tunnels'] = GenerateQuadsTunnels(gTextures['tunnels'])
     }
 
     push:setupScreen(VIRTUAL_WIDTH, VIRTUAL_HEIGHT, WINDOW_WIDTH, WINDOW_HEIGHT, {
@@ -107,7 +112,7 @@ function love.keypressed(key)
         if gStateMachine:getCurrentStateName() ~= 'start' then
             if gStateMachine:getCurrentStateName() == 'play' then
                 --reset the background Scrolling speed if paused state have been changed
-                BACKGROUND_SCROLLING_SPEED = 30
+                OBJECT_SCROLL_SPEED = 60
             end
             gStateMachine:change('pause',{
                 state = gStateMachine:getCurrentStateName()

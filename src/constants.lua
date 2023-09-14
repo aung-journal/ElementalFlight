@@ -46,6 +46,8 @@ JUMP_POWER = 5 --140 initially
 FALL_SPEED = 5 --170 initially
 
 --Obstacles
+OBJECT_SCROLL_SPEED = 60
+
 --Pipe
 PIPE_SPEED = 60
 PIPE_WIDTH = 70

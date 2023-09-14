@@ -67,3 +67,7 @@ function GenerateQuadsPipes(atlas)
     return GenerateQuads(atlas, 70, 288)
 end
 
+function GenerateQuadsTunnels(atlas)
+    return GenerateQuads(atlas, 288, 70)
+end
+

@@ -1,7 +1,7 @@
 --fix this bird way of moving, fix this bug of improving
 PlayState = Class{__includes = BaseState}
 
---finish this crystalOrb not working when it is touched
+--finish this not working horizontal pipePairs and rotating pipes
 
 function PlayState:enter(params)
     self.highScores = params.highScores
@@ -14,10 +14,7 @@ function PlayState:init()
     self.scoreTimer = 0 --this is counting score by amount of seconds lapsed from start
     self.gold = 0 --amount of golds player own
 
-    --this is for keeping tracks of elemental_orbs(orbs)
-    self.elementalOrbs = {}
-    self.elementalTimer = 0
-
+    --Orbs section
     --this is for gemstone
     self.multiplier = 1
     self.multiplierTimer = 0
@@ -41,22 +38,37 @@ function PlayState:init()
     self.invincibleTimer = 0
     self.invincibleTimerStart = false
 
-    --This is keeping track of pipes(obstacles)
+    --this is for keeping tracks of elemental_orbs(orbs)
+    self.elementalOrbs = {}
+    self.elementalTimer = 0
+    --this is for making timer array for all the timers of all the cooldown orbs
+    self.timers = {self.multiplierTimer, self.shieldTimer, self.speedTimer, self.invincibleTimer}
+    --this is for making boolean flags array for all the cooldown orbs
+    self.flags = {self.multiplierTimerStart, self.shield, self.speedTimerStart, self.invincible}
+    self.index = nil
+
+    --This is keeping track of pipes(obstacles)(pillars)
+    --horizontal pipes(tunnels)
+    self.choose = 0--chosing which object to render
+
     self.pipePairs = {}
     self.timer = 0
-    self.lastY = -PIPE_HEIGHT + math.random(80) + 20
+    --The y value for pillars
+    self.lastPillarY = -PIPE_HEIGHT + math.random(80) + 20
+    --The y value for tunnels
+    self.lastTunnelY = -PIPE_HEIGHT + math.random(80) + 20
 end
 
 function PlayState:update(dt)
-    --this is for making BACKGROUND_SCROLL(aka player speed) boost by self.speedFactor
-    BACKGROUND_SCROLLING_SPEED = 30 * self.speedFactor
+    --this is for making OBJECT_SCROLL_SPEED(aka player speed) boost by self.speedFactor
+    OBJECT_SCROLL_SPEED = 60 * self.speedFactor
 
     --this is for scoring
     self.scoreTimer = self.scoreTimer + dt
 
     --because scrolling speed is 30 pixels per second and the block is 16 pixels, I want to
-    -- score every block (16 / 30) second is the most optimal one
-    if self.scoreTimer > (16 / 30) * (1 / self.multiplier) then --this makes the speed faster by increasing 1
+    -- score every block (16 / 30) second is the most optimal one(so this takes account of speed of object for scoring)
+    if self.scoreTimer > (16 / (OBJECT_SCROLL_SPEED / 2)) * (1 / self.multiplier) then --this makes the speed faster by increasing 1
         self.scoreTimer = 0
         self.score = self.score + 1
     end
@@ -68,7 +80,7 @@ function PlayState:update(dt)
     if self.elementalTimer > math.random(10, 15) then --firstly only render orbs 
         self.elementalTimer = 0 --resetting the timer
 
-        local x = self.bird.x + 20 --making random difference in x value
+        local x = self.bird.x + 20 --making some difference in x value
         local y = 0 --always dropping from the top of the screen
 
         table.insert(self.elementalOrbs, ElementalOrb(x, y)) --inserting this to the table
@@ -156,24 +168,39 @@ function PlayState:update(dt)
                 self.multiplier = self.multiplier + 1
                 --this makes cooldown logic available
                 self.multiplierTimerStart = true
+                --reset the timer(to extend its cooldown)
+                self.multiplierTimer = 0
             --this is for crystal orb (which protects player from collision of different colored obstacles)
             -- and 1 second of immortality after shield has broken
             elseif orb.skin == 7 then
                 self.shield = true
+                --reset the timer(if interrupted while the cooldown)
+                self.shieldTimer = 0
             --this is for Speed Boost Orb
             elseif orb.skin == 8 then
                 --increase the speedFactor by 1 so make x times fast
                 self.speedFactor = self.speedFactor + 1
                 --this is for starting cooldown logic
                 self.speedTimerStart = true
+                --reset the timer(extend its cooldown)
+                self.speedTimer = 0
             --this is for Invincibility Orb
             elseif orb.skin == 9 then
                 --this is making invinciblility on
                 self.invincible = true
                 self.invincibleTimerStart = true
+                --reset the timer if interrupted while cooldown
+                self.invincibleTimer = 0
             end
         --removing an orb from rendering or updating if it has been collided
         table.remove(self.elementalOrbs, k)
+        end
+    end
+
+    --update the timer of cooldown orbs
+    for k, flag in pairs(self.flags) do
+        if flag then
+            self.index = k
         end
     end
     --end elemental_orbs
@@ -182,17 +209,35 @@ function PlayState:update(dt)
     -- update timer for pipe spawning
     self.timer = self.timer + dt
 
-    -- spawn a new pipe pair every second and a half
-    if self.timer > 2 then
+    -- spawn a new pipe pair every 2 second by default but to get the precise spawning point 
+    if self.timer > 2 / self.speedFactor then
         -- modify the last Y coordinate we placed so pipe gaps aren't too far apart
         -- no higher than 10 pixels below the top edge of the screen,
         -- and no lower than a gap length (90 pixels) from the bottom
-        local y = math.max(-PIPE_HEIGHT + 10, 
-            math.min(self.lastY + math.random(-20, 20), VIRTUAL_HEIGHT - 90 - PIPE_HEIGHT))
-        self.lastY = y
+        self.choose = math.random(1,2) --this is choosing either horizontal or vertical pipe
 
-        -- add a new pipe pair at the end of the screen at our new Y
+        local y = math.max(-PIPE_HEIGHT + 10, 
+                math.min(self.lastPillarY + math.random(-20, 20), VIRTUAL_HEIGHT - 90 - PIPE_HEIGHT))
+        self.lastPillarY = y
+
+        -- add a new pipe pair at the end of the screen at our new Y(Pillars)
         table.insert(self.pipePairs, PipePair(y))
+
+        -- if self.choose == 1 then
+        --     local y = math.max(-PIPE_HEIGHT + 10, 
+        --         math.min(self.lastPillarY + math.random(-20, 20), VIRTUAL_HEIGHT - 90 - PIPE_HEIGHT))
+        --     self.lastPillarY = y
+
+        --     -- add a new pipe pair at the end of the screen at our new Y(Pillars)
+        --     table.insert(self.pipePairs, PipePair(y))
+        -- elseif self.choose == 2 then
+        --     local y = math.max(-PIPE_HEIGHT + 10, 
+        --         math.min(self.lastTunnelY + math.random(-20, 20), VIRTUAL_HEIGHT - 90 - PIPE_HEIGHT))
+        --     self.lastTunnelY = y
+
+        --     -- add a new pipe pair at the end of the screen at our new Y(Pillars)
+        --     table.insert(self.pipePairs, HorizontalPipePair(y))
+        -- end
 
         -- reset timer
         self.timer = 0
@@ -238,7 +283,7 @@ function PlayState:update(dt)
                                 score = self.score,
                                 highScores = self.highScores
                             })
-                            self.Skin = 1
+                            Skin = 1
                             skipToNextPipe = true  -- Set the flag to skip to the next pipe
                             break  -- Exit the inner loop
                         end
@@ -272,8 +317,18 @@ function PlayState:render()
 
     --this is for rendering menus and game data
     --rendering scores
+
+    if Skin == 4 then
+        love.graphics.setColor(0, 0, 255)
+    end
+
     love.graphics.setFont(gFonts['small'])
     love.graphics.print('Score: ' .. tostring(self.score), 8, 28)
+
+    --rendering multiplier
+    love.graphics.print('Multiplier: ' .. tostring(self.multiplier) .. 'X', 8, 88)
+
+    love.graphics.setColor(1,1,1,1)
 
     --rendering hearts
     RenderHealth(self.hearts)
@@ -281,14 +336,6 @@ function PlayState:render()
     --rendering gold coins
     love.graphics.draw(gTextures['gold'], 8, 60)
     love.graphics.print(':  ' .. tostring(self.gold), 34, 60)
-
-    --rendering multiplier
-    love.graphics.print(tostring(self.multiplier) .. 'X', 8, 88)
-
-    --rendering SPEED
-    if self.speedFactor > 1 then
-        love.graphics.print("Speed On " .. tostring(self.speedFactor) .. "X", 8, 118)
-    end
 
     self.bird:render()
 
@@ -298,10 +345,37 @@ function PlayState:render()
         orb:render()
     end
 
-    --this is for crystalOrb shield
-    if self.shield then
-        love.graphics.draw(gTextures['shield'], self.shieldX, self.shieldY)
+    if Skin == 4 then
+        love.graphics.setColor(0, 0, 255)
     end
+
+    --this is for rendering settings changes for every cooldown orbs
+    if self.multiplierTimerStart then
+        love.graphics.print("Multiplier On", 8, 118)
+        love.graphics.print(tostring(5 - self.multiplierTimer), 8, 148)
+    end
+
+    if self.shield then
+        --this is for crystalOrb shield
+        love.graphics.draw(gTextures['shield'], self.shieldX, self.shieldY)
+        love.graphics.print("Shield On", 8, 118)
+        love.graphics.print(tostring(5 - self.shieldTimer), 8, 148)
+    end
+
+    if self.speedTimerStart then
+        --RENDERING SPEED
+        love.graphics.print("Speed On " .. tostring(self.speedFactor) .. "X", 8, 118)
+        love.graphics.print(tostring(5 - self.speedTimer), 8, 148)
+    end
+
+    if self.invincible then
+        --RENDERING notion of invincibility
+        love.graphics.print("Invincibility On", 8, 118)
+        love.graphics.print(tostring(3 - self.invincibleTimer), 8, 148)
+    end
+
+    --reset color
+    love.graphics.setColor(1,1,1,1)
 end
 
 function PlayState:exit()

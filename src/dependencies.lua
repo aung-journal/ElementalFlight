@@ -22,9 +22,13 @@ require 'src/Bird'
 require 'src/Orbs/ElementalOrb'
 
 --Obstacles
---This is for pipePair
+--This is for pipePair(Pillars)
 require 'src/Obstacles/Pipe'
 require 'src/Obstacles/PipePair'
+
+--This is for pipePair(Tunnels)
+require 'src/Obstacles/HorizontalPipe'
+require 'src/Obstacles/HorizontalPipePair'
 
 --This is where the state logic is stored
 require 'src/StateMachine'

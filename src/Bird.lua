@@ -39,7 +39,7 @@ function Bird:collides(obstacle)
     --and perform particle system logic based on that orb
 
     -- Set obstacle's metatable to ElementalOrb metatable
-    setmetatable(obstacle, { __index = ElementalOrb })
+    --setmetatable(obstacle, { __index = ElementalOrb })
 
     -- Check if obstacle's metatable is the same as ElementalOrb metatable
     -- if getmetatable(obstacle) == ElementalOrb then

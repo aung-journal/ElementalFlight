@@ -2,7 +2,7 @@ Version 1.1:(WEEK 0 - WEEK 3)
 The game includes: HighScores, No Destruction Orbs, No money, No shop, No plot, Rotating pipes, spikes
 
 Version 1.2:(WEEK 4 - WEEK 7)
-The game adds: Destruction Orbs, Money, Shop, Orbs 's guide, Creatures(basic AI idea from week 4), dirt generation
+The game adds: Destruction Orbs, Money, Shop, Orbs 's guide, Creatures(basic AI idea from week 4), dirt generation, Fusion Orbs, Rainbow Orbs(orbs with particle systems)
 
 Version 1.3:(WEEK 8 - WEEK 12)
 The game adds: Plot, Tweening countdown, cooldown graphics, graphic changing, Achievements, Bosses
